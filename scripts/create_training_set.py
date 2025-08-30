@@ -1,10 +1,10 @@
 import pandas as pd
-from src.gutatlas.features import clean_feature_names
-from src.gutatlas.data import map_gi_status_binary, filter_by_tag
-from sort_tags import gi_tags
+from gutatlas.features import clean_feature_names
+from gutatlas.data import map_gi_status_binary, filter_by_tag
+from gutatlas.utils.constants import GI_TAGS
 
 
-gi_merged = filter_by_tag('../data/interim/regional_data',gi_tags)
+gi_merged = filter_by_tag('../data/interim/regional_data',GI_TAGS)
 gi_merged.to_parquet('../data/interim/filtered_and_merged/gi_microbiomes_merged.parquet')
 
 #remove duplicate rows for each sample. only need to know if any disease is present or not 
