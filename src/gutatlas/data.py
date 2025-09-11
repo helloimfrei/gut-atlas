@@ -4,6 +4,11 @@ from pathlib import Path
 import re
 
 def filter_by_tag(batch_dir, tag_list):
+    """"
+    Filter a batch of parquet files by a list of tags.
+
+    Returns a concatenated Polars DataFrame
+    """
     lf = pl.scan_parquet(str(Path(batch_dir) / "*.parquet"), glob=True)
     filtered = lf.filter(pl.col("tag").is_in(tag_list))
     return filtered.collect() 
