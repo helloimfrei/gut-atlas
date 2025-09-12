@@ -13,8 +13,8 @@ def filter_by_tag(batch_dir, tag_list):
     filtered = lf.filter(pl.col("tag").is_in(tag_list))
     return filtered.collect() 
 
-#chat saved me an immense amount of time on the below functions
-# #cleaning these tags/values would not have been very fun to do myself
+# for the sake of transparency, the below code is heavily AI-generated
+# #cleaning all of these tags/values would have been remarkably boring
 
 # cleaning up the values column and converting to binary diseased(1) or not diseased (0)
 def map_gi_status_binary(value):
