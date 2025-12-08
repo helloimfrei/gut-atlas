@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-import xgboost as xgb
 from xgboost import XGBClassifier, XGBRegressor
 
 from skopt.space import Real, Integer
@@ -24,6 +23,7 @@ default_search_space = {
 
 ## base tuner class
 
+
 class BOTuner:
     """
     Base tuner class for XGBoost models.
@@ -45,6 +45,7 @@ class BOTuner:
     verbose : int, optional
         The verbosity level of the hyperparameter search
     """
+
     def __init__(
         self,
         estimator,
@@ -78,7 +79,7 @@ class BOTuner:
         return self.opt.best_params_
 
     def best_score(self):
-        return (self.opt.scoring,self.opt.best_score_)
+        return (self.opt.scoring, self.opt.best_score_)
 
     def best_estimator(self):
         return self.opt.best_estimator_
@@ -98,6 +99,7 @@ class BOTuner:
 
 
 ## XGB Regressor
+
 
 class XGBRegTuner(BOTuner):
     """
@@ -126,6 +128,7 @@ class XGBRegTuner(BOTuner):
     **xgb_kwargs :
         Additional keyword arguments passed directly to ``XGBRegressor``.
     """
+
     def __init__(
         self,
         cv_splits=5,
@@ -151,6 +154,7 @@ class XGBRegTuner(BOTuner):
 
 
 ## XGB Binary Classifier
+
 
 class XGBBinClassTuner(BOTuner):
     """
@@ -184,6 +188,7 @@ class XGBBinClassTuner(BOTuner):
     **xgb_kwargs :
         Additional keyword arguments passed directly to ``XGBClassifier``.
     """
+
     def __init__(
         self,
         cv_splits=5,
@@ -203,7 +208,9 @@ class XGBBinClassTuner(BOTuner):
             random_state=random_state,
             **xgb_kwargs,
         )
-        cv = StratifiedKFold(n_splits=cv_splits, shuffle=True, random_state=random_state)
+        cv = StratifiedKFold(
+            n_splits=cv_splits, shuffle=True, random_state=random_state
+        )
         super().__init__(
             estimator=estimator,
             cv=cv,
@@ -213,5 +220,3 @@ class XGBBinClassTuner(BOTuner):
             scoring=scoring,
             verbose=verbose,
         )
-
-

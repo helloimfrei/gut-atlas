@@ -3,56 +3,69 @@ import polars as pl
 from pathlib import Path
 import re
 
+
 def filter_by_tag(batch_dir, tag_list):
-    """"
+    """ "
     Filter a batch of parquet files by a list of tags.
 
     Returns a concatenated Polars DataFrame
     """
     lf = pl.scan_parquet(str(Path(batch_dir) / "*.parquet"), glob=True)
     filtered = lf.filter(pl.col("tag").is_in(tag_list))
-    return filtered.collect() 
+    return filtered.collect()
 
-# for the sake of transparency, the below code is heavily AI-generated
-# #cleaning all of these tags/values would have been remarkably boring
 
 # cleaning up the values column and converting to binary diseased(1) or not diseased (0)
 def map_gi_status_binary(value):
     """
     Map GI-related values (categorical or numeric IBS-SSS) to binary 0/1.
-    
+
     Args:
         value (str or int): raw tag value from dataset
-    
+
     Returns:
         int: 0 = healthy/none, 1 = any GI issue
     """
     if value is None:
         return 0
-    
+
     val = str(value).strip().lower()
-    
+
     # ---- Handle numeric IBS-SSS scores ----
     if val.isdigit():
         score = int(val)
         return 1 if score >= 75 else 0
-    
+
     # ---- Known healthy/negative markers ----
     healthy_markers = {
-        "i do not have this condition", "none", "normal", "healthy",
-        "no", "no diagnosed disorders", "not applicable",
-        "not_applicable", "na", "unk", "not provided", "unspecified",
-        "not collected", "control", "labcontrol test", "hc", "healthy_control"
+        "i do not have this condition",
+        "none",
+        "normal",
+        "healthy",
+        "no",
+        "no diagnosed disorders",
+        "not applicable",
+        "not_applicable",
+        "na",
+        "unk",
+        "not provided",
+        "unspecified",
+        "not collected",
+        "control",
+        "labcontrol test",
+        "hc",
+        "healthy_control",
     }
-    
+
     if val in healthy_markers:
         return 0
-    
+
     # ---- Otherwise assume positive GI condition ----
     return 1
 
+
 ##
-#cleaning gi tags/valus for multilabel classification 
+# cleaning gi tags/valus for multilabel classification
 
 CONTAINER_TAGS = {
     "gastrointest_disord",
@@ -62,9 +75,20 @@ CONTAINER_TAGS = {
 }
 
 NEG_TOKENS = {
-    "none","no","n","healthy","healthy_control","control",
-    "no diagnosed disorders","not applicable","not_applicable",
-    "not collected","not provided","unspecified","missing","unk"
+    "none",
+    "no",
+    "n",
+    "healthy",
+    "healthy_control",
+    "control",
+    "no diagnosed disorders",
+    "not applicable",
+    "not_applicable",
+    "not collected",
+    "not provided",
+    "unspecified",
+    "missing",
+    "unk",
 }
 
 # Canonical disease map (expand as you encounter more)
@@ -74,12 +98,10 @@ DISEASE_SYNONYMS = {
     "ibs": "IBS",
     "mild irritable bowel syndrome": "IBS",
     "yes.ibs": "IBS",
-
     # Ulcerative colitis
     "ulcerative colitis": "Ulcerative colitis",
     "uclerative_colitis": "Ulcerative colitis",
     "uc": "Ulcerative colitis",
-
     # Crohn's disease
     "crohn": "Crohn's disease",
     "crohn's disease": "Crohn's disease",
@@ -89,7 +111,6 @@ DISEASE_SYNONYMS = {
     "ileal crohn's disease": "Crohn's disease",
     "colonic crohn's disease": "Crohn's disease",
     "ileal and colonic crohn's disease": "Crohn's disease",
-
     # Other GI diagnoses
     "functional dyspepsia": "Functional dyspepsia",
     "functional_dyspepsia": "Functional dyspepsia",
@@ -97,18 +118,15 @@ DISEASE_SYNONYMS = {
     "obesity": "Obesity",
     "microcolitis": "Microcolitis",
     "colitis": "Colitis",
-
     # Cancer
     "gi_ca": "GI cancer",
     "cancer": "GI cancer",
     "gastrointestinal cancer": "GI cancer",
     "advanced gastric cancer": "GI cancer",
     "early gastric cancer": "GI cancer",
-
     # Infections / other
     "clostridium difficile infection": "C. difficile infection",
     "necrotizing enterocolitis": "Necrotizing enterocolitis",
-
     # Related
     "pouchitis": "Pouchitis",
     "sibo": "SIBO",
@@ -213,10 +231,12 @@ def _normalize_regular(sample: str, tag: str, value) -> list[tuple[str, str, int
     if v in NEG_TOKENS or v == "0":
         y = 0
     elif v in {
-        "1","yes","present",
+        "1",
+        "yes",
+        "present",
         "self-diagnosed",
         "diagnosed by a medical professional (doctor, physician assistant)",
-        "diagnosed by an alternative medicine practitioner"
+        "diagnosed by an alternative medicine practitioner",
     }:
         y = 1
     elif v.isdigit():
@@ -230,6 +250,7 @@ def _normalize_regular(sample: str, tag: str, value) -> list[tuple[str, str, int
 # ----------------------------
 # Public function
 # ----------------------------
+
 
 def normalize_multilabel_gi_tags(df: pd.DataFrame) -> pd.DataFrame:
     """
