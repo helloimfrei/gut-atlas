@@ -30,3 +30,4 @@ def dead_features(df):
     )
     drop_cols = col_abundances[col_abundances.total_abundance == 0]["index"].tolist()
     return drop_cols
+ 
