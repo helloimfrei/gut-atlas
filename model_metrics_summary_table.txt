@@ -1,0 +1,106 @@
+================================================================================
+COMPLETE MODEL PERFORMANCE SUMMARY
+Gut Microbiome Disease Prediction Project
+================================================================================
+
+TABLE 1: OVERALL MODEL PERFORMANCE COMPARISON
+--------------------------------------------------------------------------------
+Model                           CV ROC AUC    Test ROC AUC    Precision    Recall    Specificity
+XGBoost                         0.8394        0.8353          0.7122       0.5734    0.8710
+LightGBM                        0.8340        0.8277          0.7134       0.5454    0.8780
+Logistic Regression             0.7796        0.7775          0.6654       0.4971    0.8608
+DAE + Classifier                -             0.6945          0.6870       0.1737    0.9559
+
+
+TABLE 2: CONFUSION MATRIX RESULTS (Test Set, n=2897)
+--------------------------------------------------------------------------------
+Model                           TN        FP        FN        TP        Total
+XGBoost                         1621      240       442       594       2897
+LightGBM                        1634      227       471       565       2897
+Logistic Regression             1602      259       521       515       2897
+DAE + Classifier                1779      82        856       180       2897
+
+
+TABLE 3: DATASET CHARACTERISTICS
+--------------------------------------------------------------------------------
+Total Samples:                  11,586
+Training Samples:               8,689 (75%)
+Test Samples:                   2,897 (25%)
+Healthy Samples (y=0):          7,442 (64.2%)
+Disease Samples (y=1):          4,144 (35.8%)
+Class Balance Ratio:            0.358
+Original Features:              4,680 bacterial taxa
+Final Features:                 2,597 bacterial taxa (after filtering)
+Taxonomic Levels:               Family and Genus only
+
+
+TABLE 4: TOP 10 PROTECTIVE BACTERIAL GENERA (Negative Coefficients)
+--------------------------------------------------------------------------------
+Rank    Genus                                   Family                      Coefficient
+1       Oxidoreducens group                     -                           -0.2583
+2       Lachnotalea                             Lachnospiraceae             -0.2315
+3       Tumebacillus                            Alicyclobacillaceae         -0.2279
+4       Oscillatoria                            Desertifilaceae             -0.2163
+5       Incertae sedis                          -                           -0.1510
+6       Pantoea                                 Erwiniaceae                 -0.1353
+7       Pseudoramibacter                        Eubacteriaceae              -0.1346
+8       Genus 10                                -                           -0.1245
+9       Salmonella                              Enterobacteriaceae          -0.1154
+10      Bradyrhizobium                          Xanthobacteraceae           -0.1101
+
+
+TABLE 5: TOP 10 RISK-ENHANCING BACTERIAL GENERA (Positive Coefficients)
+--------------------------------------------------------------------------------
+Rank    Genus                                   Family                      Coefficient
+1       Anoxybacillus                           Bacillaceae                 0.2071
+2       Weizmannia                              Bacillaceae                 0.1550
+3       Leptotrichia                            Leptotrichiaceae            0.1547
+4       Paucilactobacillus                      Lactobacillaceae            0.1508
+5       Cutibacterium                           Propionibacteriaceae        0.1278
+6       Tissierella                             -                           0.1216
+7       Massilia                                Oxalobacteraceae            0.1145
+8       Mucilaginibacter                        Sphingobacteriaceae         0.1096
+9       Mammaliicoccus                          Staphylococcaceae           0.1019
+10      Herbaspirillum                          Oxalobacteraceae            0.1012
+
+
+TABLE 6: MODEL TRAINING CONFIGURATION
+--------------------------------------------------------------------------------
+Parameter                       XGBoost         LightGBM        LogReg          DAE
+Cross-Validation                5-fold          5-fold          5-fold          80/20 split
+Hyperparameter Optimization     Bayesian (10)   Bayesian (10)   Bayesian (10)   Early stop
+Regularization                  L1 + L2         L1 + L2         ElasticNet      Dropout 0.3
+Optimization Metric             ROC AUC         ROC AUC         ROC AUC         Val AUC
+Feature Compression             None            None            None            5.1x (2597→512)
+
+
+TABLE 7: BEST PERFORMING MODEL BY METRIC
+--------------------------------------------------------------------------------
+Metric                          Best Model              Value       Interpretation
+Highest Test ROC AUC            XGBoost                 0.8353      Best overall performance
+Highest Precision               LightGBM                0.7134      Fewest false positives
+Highest Recall                  XGBoost                 0.5734      Best at catching disease
+Highest Specificity             DAE + Classifier        0.9559      Best at identifying healthy
+Most Interpretable              Logistic Regression     -           Direct coefficients
+Best CV Performance             XGBoost                 0.8394      Most robust to variation
+
+
+KEY FINDINGS:
+--------------------------------------------------------------------------------
+1. XGBoost achieved the best overall performance (Test ROC AUC: 0.8353)
+2. Gradient boosting models (XGBoost, LightGBM) significantly outperformed
+   logistic regression and deep learning approaches
+3. All models achieved ROC AUC > 0.77, demonstrating that microbiome
+   composition alone is highly predictive of GI disease risk
+4. Patient metadata (BMI, age, region) were excluded due to missing data
+5. Lachnospiraceae (butyrate producers) emerged as strongly protective
+6. Compression ratio for DAE: 5.1x (2597 features → 512 dimensions)
+
+
+NOTES:
+--------------------------------------------------------------------------------
+- All models trained on same 2,597 bacterial taxa after preprocessing
+- Preprocessing: TSS → CLR transformation → dead feature removal → filtering
+- Test set (n=2,897) was held out and never used for training
+- All metrics reported on the same stratified test set
+- Class imbalance: 64.2% healthy, 35.8% disease

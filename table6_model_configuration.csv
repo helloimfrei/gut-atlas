@@ -1,0 +1,7 @@
+Parameter,XGBoost,LightGBM,Logistic Regression,DAE + Classifier
+Cross-Validation,5-fold stratified,5-fold stratified,5-fold stratified,Train/Val split (80/20)
+Hyperparameter Optimization,Bayesian (10 iterations),Bayesian (10 iterations),Bayesian (10 iterations),Early stopping (patience=10)
+Regularization,L1 + L2 (alpha lambda),L1 + L2,ElasticNet,Dropout (0.3)
+Loss Function,Binary cross-entropy,Binary cross-entropy,Binary cross-entropy,Binary cross-entropy
+Optimization Metric,ROC AUC,ROC AUC,ROC AUC,Validation AUC
+Best Parameters,"max_depth=4, n_estimators=798, lr=0.064",Leaf-wise growth,"C, l1_ratio optimized",512-dim encoding

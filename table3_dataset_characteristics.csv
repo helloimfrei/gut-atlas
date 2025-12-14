@@ -1,0 +1,10 @@
+Characteristic,Value
+Total Samples,11586
+Training Samples,8689 (75%)
+Test Samples,2897 (25%)
+Healthy Samples (y=0),7442 (64.2%)
+Disease Samples (y=1),4144 (35.8%)
+Class Balance Ratio,0.358
+Original Features,4680 bacterial taxa
+Final Features,2597 bacterial taxa
+Taxonomic Levels,Family and Genus only

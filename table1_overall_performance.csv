@@ -1,0 +1,5 @@
+Model,CV ROC AUC,Test ROC AUC,Precision,Recall,Specificity,Compression Ratio
+XGBoost,0.8394,0.8353,0.7122,0.5734,0.8710,-
+LightGBM,0.8340,0.8277,0.7134,0.5454,0.8780,-
+Logistic Regression (ElasticNet),0.7796,0.7775,0.6654,0.4971,0.8608,-
+DAE + Classifier,-,0.6945,0.6870,0.1737,0.9559,5.1x (2597→512)

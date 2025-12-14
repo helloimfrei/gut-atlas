@@ -1,0 +1,8 @@
+Metric,Best Model,Value,Interpretation
+Highest Test ROC AUC,XGBoost,0.8353,Best overall discriminative performance
+Highest CV ROC AUC,XGBoost,0.8394,Most robust to cross-validation variation
+Highest Precision,LightGBM,0.7134,Fewest false positives among positive predictions
+Highest Recall,XGBoost,0.5734,Best at identifying true disease cases
+Highest Specificity,DAE + Classifier,0.9559,Best at correctly identifying healthy cases
+Most Interpretable,Logistic Regression,-,Direct coefficient interpretation
+Most Efficient,LightGBM,0.8277,Good performance with fast training time

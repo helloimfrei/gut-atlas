@@ -1,0 +1,5 @@
+Model,True Negatives (TN),False Positives (FP),False Negatives (FN),True Positives (TP),Total Test Samples
+XGBoost,1621,240,442,594,2897
+LightGBM,1634,227,471,565,2897
+Logistic Regression,1602,259,521,515,2897
+DAE + Classifier,1779,82,856,180,2897

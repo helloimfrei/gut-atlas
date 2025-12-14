@@ -1,0 +1,11 @@
+Rank,Genus,Family,Coefficient,Interpretation
+1,Anoxybacillus,Bacillaceae,0.2071,Strongest risk-enhancing
+2,Weizmannia,Bacillaceae,0.1550,Risk-enhancing
+3,Leptotrichia,Leptotrichiaceae,0.1547,Risk-enhancing
+4,Paucilactobacillus,Lactobacillaceae,0.1508,Risk-enhancing (unexpected for Lactobacillus family)
+5,Cutibacterium,Propionibacteriaceae,0.1278,Associated with inflammation
+6,Tissierella,-,0.1216,Risk-enhancing
+7,Massilia,Oxalobacteraceae,0.1145,Risk-enhancing
+8,Mucilaginibacter,Sphingobacteriaceae,0.1096,Risk-enhancing
+9,Mammaliicoccus,Staphylococcaceae,0.1019,Risk-enhancing
+10,Herbaspirillum,Oxalobacteraceae,0.1012,Risk-enhancing
