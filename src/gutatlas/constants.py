@@ -1,0 +1,52 @@
+"""Dataset constants used by the supported GI workflow."""
+
+GI_TAGS: tuple[str, ...] = (
+    "ibs",
+    "IBS_SSS",
+    "ibd",
+    "ibd_history",
+    "ibd diagnosis",
+    "ibd_diagnosis_refined",
+    "pm_gastro_problems_irritable_bowel_syndrome_ibs",
+    "pm_gastro_problems_crohns_disease_or_ulcerative_colitis",
+    "pm_gastro_problems_gastrointestinal_cancer",
+    "pm_gastro_problems_unspecified",
+    "pm_gastro_problems_other",
+    "pm_gastro_problems",
+    "acid_reflux",
+    "gastritis",
+    "pouchitis",
+    "sibo",
+    "colitis",
+    "ulcerative colitis",
+    "crohn's disease",
+    "crohns",
+    "necrotizing enterocolitis",
+    "microcolitis",
+    "cd",
+    "UC",
+    "gi_CA",
+    "gastrointest_disord",
+)
+
+HEALTHY_MARKERS: frozenset[str] = frozenset(
+    {
+        "i do not have this condition",
+        "none",
+        "normal",
+        "healthy",
+        "no",
+        "no diagnosed disorders",
+        "not applicable",
+        "not_applicable",
+        "na",
+        "unk",
+        "not provided",
+        "unspecified",
+        "not collected",
+        "control",
+        "labcontrol test",
+        "hc",
+        "healthy_control",
+    }
+)

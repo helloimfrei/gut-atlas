@@ -1,4 +1,7 @@
-data/
+/data
+/artifacts
+/runs
+/PROJECT.md
 old_ml_environment.yml
 .DS_Store
 
